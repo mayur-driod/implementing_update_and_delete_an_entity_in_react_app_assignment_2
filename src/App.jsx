@@ -27,7 +27,23 @@ function App() {
     fetchItems();
   }, []);
 
-  return <ItemList key={items.id} items={items} />;
+  const handleDelete = async (id) => {
+    try {
+        const response = await fetch(`${API_URI}/${id}`, {
+            method: "DELETE",
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to delete the item");
+        }
+
+        console.log("Item deleted successfully");
+    } catch (error) {
+        console.error("Error:", error.message);
+    }
+};
+
+  return <ItemList key={items.id} items={items} ondel={handleDelete}/>;
 }
 
 export default App;
